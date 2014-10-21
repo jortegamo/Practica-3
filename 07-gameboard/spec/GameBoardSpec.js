@@ -69,10 +69,26 @@ describe ("Clase GameBoard",function(){
 		var obj = {}; //solo queremos saber si a–ade satisfactoramente los objetos.
 		board.add(obj);
 		expect(board.objects.length).toBe(1);
+		expect(obj.board).toBe(board); //el objeto se enlaza al tablero.
 	});
 	
 	it ("remove + resetRemoved + finalizeRemoved",function(){
-	
+		var board = new GameBoard();
+		var obj = {};
+		board.add(obj);
+		board.resetRemoved(); //inicializamos el array de objetos marcados para eliminar.
+		expect(board.removed.length).toBe(0);
+		board.remove(obj); //marcamos el objeto a eliminar.
+		//el objeto no se borra de objects.
+		expect(board.removed.length).toBe(1);
+		expect(board.objects.length).toBe(1);
+		board.finalizeRemoved(); //realizamos el borrado.
+		//el objeto se borra de objects pero no se desmarca. (Habra que llamar a resetRemoved de nuevo).
+		//No hay problema puesto que el borrado se hace sobre todos los elementos de removed.
+		//Despues de llamar a finalizeRemoved habra que llamar a inicializeRemoved.
+		//En la proxima pasada del loop de Game estar‡ inicializado y listo para almacenar marcados.
+		expect(board.objects.length).toBe(0);
+		expect(board.removed.length).toBe(1);
 	});
 	
 	it ("step + iterate",function(){
