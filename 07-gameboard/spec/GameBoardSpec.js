@@ -136,10 +136,28 @@ describe ("Clase GameBoard",function(){
 	});
 	
 	it ("overlap",function(){
-	
+		var board = new GameBoard();
+		var obj1 = {x: 0,y: 0,h: 2,w: 2};
+		var obj2 = {x: 1,y: 1,h: 2,w: 2};
+		var obj3 = {x: 2,y: 2,h: 2,w: 2};
+		board.add(obj1);
+		board.add(obj2);
+		board.add(obj3);
+		expect(board.overlap(obj1,obj2)).toBe(true);
+		expect(board.overlap(obj1,obj3)).toBe(false);
 	});
 	
 	it ("collide",function(){
-	
+		var board = new GameBoard();
+		var obj1 = {x: 0,y: 0,h: 2,w: 2};
+		var obj2 = {x: 1,y: 1,h: 2,w: 2};
+		var obj3 = {x: 2,y: 2,h: 2,w: 2};
+		board.add(obj1);
+		board.add(obj2);
+		board.add(obj3);
+		expect(board.collide(obj1)).toBe(obj2);
+		//el type deber‡ ser un objeto ya que el comparador binario es clave.
+		expect(board.collide(obj1,'missile')).toBe(false);
+		expect(board.collide(obj3)).toBe(obj2);
 	});
 });
