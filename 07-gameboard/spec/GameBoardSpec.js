@@ -92,11 +92,35 @@ describe ("Clase GameBoard",function(){
 	});
 	
 	it ("step + iterate",function(){
-	
+		var board = new GameBoard();
+		var obj1 = {step: function(){}};
+		var obj2 = {step: function(){}};
+		board.add(obj1);
+		board.add(obj2);
+		spyOn (obj1,"step");
+		spyOn (obj2,"step");
+		//al llamar a step de board se llama a iterate()
+		//en iterate se llama a la funci—n especificada de cada objeto.
+		board.step(1);
+		expect(obj1.step).toHaveBeenCalled();
+		expect(obj2.step).toHaveBeenCalled();
+		expect(obj1.step.calls[0].args[0]).toBe(1);
+		expect(obj1.step.calls[0].args[0]).toBe(1);
 	});
 	
 	it ("draw + iterate",function(){
-	
+		var board = new GameBoard();
+		var obj1 = {draw: function(){}};
+		var obj2 = {draw: function(){}};
+		board.add(obj1);
+		board.add(obj2);
+		spyOn (obj1,"draw");
+		spyOn (obj2,"draw");
+		//al llamar a step de board se llama a iterate()
+		//en iterate se llama a la funci—n especificada de cada objeto.
+		board.draw();
+		expect(obj1.draw).toHaveBeenCalled();
+		expect(obj2.draw).toHaveBeenCalled();
 	});
 	
 	it ("detect",function(){
