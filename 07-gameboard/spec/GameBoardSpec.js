@@ -56,3 +56,42 @@
     colisionado con objetos de cierto tipo, no con todos los objetos.
 
 */
+
+describe ("Clase GameBoard",function(){
+
+	it ("Definida la clase",function(){
+		expect (GameBoard).toBeDefined();
+	});
+	
+	it ("add",function(){
+		var board = new GameBoard();
+		expect(board.objects.length).toBe(0);
+		var obj = {}; //solo queremos saber si a–ade satisfactoramente los objetos.
+		board.add(obj);
+		expect(board.objects.length).toBe(1);
+	});
+	
+	it ("remove + resetRemoved + finalizeRemoved",function(){
+	
+	});
+	
+	it ("step + iterate",function(){
+	
+	});
+	
+	it ("draw + iterate",function(){
+	
+	});
+	
+	it ("detect",function(){
+	
+	});
+	
+	it ("overlap",function(){
+	
+	});
+	
+	it ("collide",function(){
+	
+	});
+});
