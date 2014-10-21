@@ -124,7 +124,15 @@ describe ("Clase GameBoard",function(){
 	});
 	
 	it ("detect",function(){
-	
+		var board = new GameBoard();
+		var obj1 = {type: 'ally'};
+		var obj2 = {type: 'enemy'};
+		board.add(obj1);
+		board.add(obj2);
+		//En func creamos una funci—n sencilla que nos devolver‡ los objetos que sean aliados.
+		var objDetected = board.detect (function(){ return this.type === 'ally'});
+		//comprobamos que el objeto devuelto es el correcto.
+		expect(objDetected).toBe(obj1);
 	});
 	
 	it ("overlap",function(){
