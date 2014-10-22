@@ -27,3 +27,23 @@
     la clase en el prototipo
 
 */
+
+describe ("Clase PlayerMissile",function(){
+
+	it("Definida la clase",function(){
+		expect(PlayerMissile).toBeDefined();
+	});
+	
+	it("Creando un misil",function(){
+	
+	});
+	
+	it("step",function(){
+	
+	});
+	
+	it("draw",function(){
+	
+	});
+	
+});
