@@ -32,12 +32,13 @@ describe ("Clase PlayerMissile",function(){
 
 	beforeEach (function(){
 		loadFixtures('index.html');
-		SpriteSheet.load (sprites,function(){});
+		oldSpriteSheet = SpriteSheet;
 		oldGame = Game;
 	});
 	
 	afterEach (function(){
 		Game = oldGame;
+		SpriteSheet = oldSpriteSheet;
 	});
 	
 	it("Definida la clase",function(){
@@ -61,12 +62,27 @@ describe ("Clase PlayerMissile",function(){
 		var missile1 = new PlayerMissile(Game.width/2, Game.height); //estara en la pos (159,470);
 		board.add(missile1);
 		spyOn(missile1,"step");
+		spyOn(board,"remove");
+		spyOn(board,"finalizeRemoved");
 		board.step(1);
-		expect(missile1.step).toHaveBeenCalledWith(30);
+		expect(missile1.step).toHaveBeenCalledWith(1);
+		//expect(board.remove).toHaveBeenCalled();
+		//expect(board.filanizeRemoved).toHaveBeenCalled();
 	});
 	
 	it("draw",function(){
-	
+		/*SpriteSheet = {
+			map: {missile: { sx: 0, sy: 30, w: 2, h: 10, frames: 1 }},
+			draw: function(){};
+		};*/
+		var board = new GameBoard();
+		Game = {width: 320, height: 480};
+		var missile = new PlayerMissile(Game.width/2, Game.height);
+		spyOn(missile, "draw");
+		spyOn(SpriteSheet, "draw");
+		board.add(missile);
+		board.draw();
+		expect(missile.draw).toHaveBeenCalled();
 	});
 	
 });
