@@ -32,6 +32,12 @@ describe ("Clase PlayerMissile",function(){
 
 	beforeEach (function(){
 		loadFixtures('index.html');
+		canvas = $('#game')[0];
+		expect(canvas).toExist();
+	
+		ctx = canvas.getContext('2d'); // necesario para los métodos draw
+		expect(ctx).toBeDefined();
+		
 		oldSpriteSheet = SpriteSheet;
 		oldGame = Game;
 	});
@@ -56,33 +62,40 @@ describe ("Clase PlayerMissile",function(){
 	});
 	
 	it("step",function(){
-		//creamos el board al que se van a añadir los misiles.
-		var board = new GameBoard();
-		Game = {width: 320, height: 480};
-		var missile1 = new PlayerMissile(Game.width/2, Game.height); //estara en la pos (159,470);
-		board.add(missile1);
-		spyOn(missile1,"step");
-		spyOn(board,"remove");
-		spyOn(board,"finalizeRemoved");
-		board.step(1);
-		expect(missile1.step).toHaveBeenCalledWith(1);
-		//expect(board.remove).toHaveBeenCalled();
-		//expect(board.filanizeRemoved).toHaveBeenCalled();
+		var miboard = new GameBoard();
+		var miMissile1 = new PlayerMissile (5,5);
+		var miMissile2 = new PlayerMissile (130,400);
+		// añadimos miMissile a board para que miMissile pueda referenciar a board.
+		miboard.add (miMissile1); 
+		miboard.add (miMissile2);
+		spyOn(miboard, "remove");
+		var dt = 0.5;
+		miboard.step(dt);
+		runs(function(){
+			expect (miboard.remove).toHaveBeenCalled(); // se debería haber llamado a remove
+			expect (miboard.remove.calls[0].args[0]).toBe (miMissile1); // me aseguro de que el missile para borrar es el 1 y no el 2.
+			expect (miboard.remove.length).toBe(0); //me aseguro de que se ha llamado a finalizeRemoved().
+			expect (miMissile2.y).toBe(40); //El missile2 sigue existiendo en el canvas.
+		});
 	});
 	
 	it("draw",function(){
-		/*SpriteSheet = {
-			map: {missile: { sx: 0, sy: 30, w: 2, h: 10, frames: 1 }},
-			draw: function(){};
-		};*/
-		var board = new GameBoard();
-		Game = {width: 320, height: 480};
-		var missile = new PlayerMissile(Game.width/2, Game.height);
-		spyOn(missile, "draw");
-		spyOn(SpriteSheet, "draw");
-		board.add(missile);
-		board.draw();
-		expect(missile.draw).toHaveBeenCalled();
+		SpriteSheet = { // creamos un objeto dummy SpriteSheet y que en su map tiene almacenado un sprite missile.
+  			map : {missile: { sx: 0, sy: 30, w: 2, h: 10, frames: 1 }},
+  			draw: function() {}
+		};
+		var miMissile = new PlayerMissile (5,5); // creamos un nuevo objeto missile.
+		var miboard = new GameBoard();
+		miboard.add(miMissile);
+		spyOn (SpriteSheet, "draw");
+		miboard.draw(ctx);
+		runs(function(){
+			expect (SpriteSheet.draw).toHaveBeenCalled(); // deberá llamar a SpriteSheet.draw
+			expect (SpriteSheet.draw.calls[0].args[0]).toBe (ctx); // comprobamos que el orden de argumentos es el correcto.
+			expect (SpriteSheet.draw.calls[0].args[1]).toBe ('missile');
+			expect (SpriteSheet.draw.calls[0].args[2]).toBe (miMissile.x);
+			expect (SpriteSheet.draw.calls[0].args[3]).toBe (miMissile.y);
+		});
 	});
 	
 });
