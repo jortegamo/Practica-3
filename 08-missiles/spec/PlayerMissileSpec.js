@@ -106,4 +106,33 @@ describe ("Clase PlayerMissile",function(){
 			expect (SpriteSheet.draw.calls[0].args[3]).toBe (miMissile.y);
 		});
 	});
+	
+	
+	it ("No hay disparos con tecla pulsada",function(){
+		// creamos un objeto dummy SpriteSheet y que en su map tiene almacenado un sprite missile y el sprite de nuestra nave.
+		SpriteSheet = { 
+  			map : {ship: { sx: 0, sy: 0, w: 37, h: 42, frames: 1 },
+  						 missile: { sx: 0, sy: 30, w: 2, h: 10, frames: 1 }}
+		};
+		var miBoard = new GameBoard();
+		var miNave = new PlayerShip();
+		miBoard.add(miNave);
+		Game.keys = {'fire': false};
+		miBoard.step(0); //ahora iniciamos con la tecla sin pulsar.
+		expect(miBoard.objects.length).toBe(1);
+		Game.keys = {'fire': true};
+		miBoard.step(1); //nos aseguramos de que se ha cumplido el tiempo de recarga.
+		expect(miBoard.objects.length).toBe(3);
+		miBoard.step(0.30); //los misiles no han desaparecido, pero el tiempo de recarga si que ha expirado.
+		//no se deben poder disparar puesto que la tecla de disparo esta pulsada.
+		expect(miBoard.objects.length).toBe(3);
+		//ahora despulsamos y volvemos a disparar.
+		Game.keys = {'fire': false};
+		miBoard.step(0); //no ha pasado tiempo.
+		Game.keys = {'fire': true};
+		miBoard.step(0); //el tiempo de recarga ha expirado y no se ha reseteado todavia.
+		expect(miBoard.objects.length).toBe(5); //se suman los nuevos disparos.
+	});
+	
+	
 });
