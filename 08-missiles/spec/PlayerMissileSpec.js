@@ -37,14 +37,13 @@ describe ("Clase PlayerMissile",function(){
 	
 		ctx = canvas.getContext('2d'); // necesario para los métodos draw
 		expect(ctx).toBeDefined();
-		
 		oldSpriteSheet = SpriteSheet;
 		oldGame = Game;
 	});
 	
 	afterEach (function(){
-		Game = oldGame;
 		SpriteSheet = oldSpriteSheet;
+		Game = oldGame;
 	});
 	
 	it("Definida la clase",function(){
@@ -52,6 +51,9 @@ describe ("Clase PlayerMissile",function(){
 	});
 	
 	it("Creando un misil",function(){
+		SpriteSheet = { // creamos un objeto dummy SpriteSheet y que en su map tiene almacenado un sprite missile.
+  			map : {missile: { sx: 0, sy: 30, w: 2, h: 10, frames: 1 }},
+		};
 		Game = {width: 320, height: 480};
 		var missile = new PlayerMissile(Game.width/2,Game.height);
 		expect(missile.x).toBe(159);
@@ -62,6 +64,9 @@ describe ("Clase PlayerMissile",function(){
 	});
 	
 	it("step",function(){
+		SpriteSheet = { // creamos un objeto dummy SpriteSheet y que en su map tiene almacenado un sprite missile.
+  			map : {missile: { sx: 0, sy: 30, w: 2, h: 10, frames: 1 }},
+		};
 		var miboard = new GameBoard();
 		var miMissile1 = new PlayerMissile (5,5);
 		var miMissile2 = new PlayerMissile (130,400);
@@ -83,7 +88,7 @@ describe ("Clase PlayerMissile",function(){
 		});
 	});
 	
-	/*it("draw",function(){
+	it("draw",function(){
 		SpriteSheet = { // creamos un objeto dummy SpriteSheet y que en su map tiene almacenado un sprite missile.
   			map : {missile: { sx: 0, sy: 30, w: 2, h: 10, frames: 1 }},
   			draw: function() {}
@@ -100,5 +105,5 @@ describe ("Clase PlayerMissile",function(){
 			expect (SpriteSheet.draw.calls[0].args[2]).toBe (miMissile.x);
 			expect (SpriteSheet.draw.calls[0].args[3]).toBe (miMissile.y);
 		});
-	});*/
+	});
 });
