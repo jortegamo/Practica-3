@@ -69,10 +69,14 @@ describe ("Clase PlayerMissile",function(){
 		miboard.add (miMissile1); 
 		miboard.add (miMissile2);
 		spyOn(miboard, "remove");
+		spyOn(miMissile1,"step").andCallThrough();
+		spyOn(miMissile2,"step").andCallThrough();
 		var dt = 0.5;
 		miboard.step(dt);
 		runs(function(){
 			expect (miboard.remove).toHaveBeenCalled(); // se debería haber llamado a remove
+			expect (miMissile1.step).toHaveBeenCalled(); //se deben haber llamado a los métodos step de cada misil.
+			expect (miMissile2.step).toHaveBeenCalled();
 			expect (miboard.remove.calls[0].args[0]).toBe (miMissile1); // me aseguro de que el missile para borrar es el 1 y no el 2.
 			expect (miboard.remove.length).toBe(0); //me aseguro de que se ha llamado a finalizeRemoved().
 			expect (miMissile2.y).toBe(40); //El missile2 sigue existiendo en el canvas.
