@@ -83,7 +83,7 @@ describe ("Clase PlayerMissile",function(){
 		});
 	});
 	
-	it("draw",function(){
+	/*it("draw",function(){
 		SpriteSheet = { // creamos un objeto dummy SpriteSheet y que en su map tiene almacenado un sprite missile.
   			map : {missile: { sx: 0, sy: 30, w: 2, h: 10, frames: 1 }},
   			draw: function() {}
@@ -100,6 +100,5 @@ describe ("Clase PlayerMissile",function(){
 			expect (SpriteSheet.draw.calls[0].args[2]).toBe (miMissile.x);
 			expect (SpriteSheet.draw.calls[0].args[3]).toBe (miMissile.y);
 		});
-	});
-	
+	});*/
 });
